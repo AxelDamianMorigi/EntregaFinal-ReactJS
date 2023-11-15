@@ -31,3 +31,17 @@ h1 {
   right: -10px;
   font-size: 1rem;
 }
+
+.category {
+  margin: 20px 0;
+}
+
+.category h3 {
+  background-color: #f7f7f7;
+  padding: 10px;
+  border-radius: 5px;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
