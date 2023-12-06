@@ -1,0 +1,44 @@
+:root {
+    --color-button-background: #e7e7e7;
+    --color-button-hover: #5a5a5a;
+    --color-text-primary: #333333;
+    --color-text-secondary: #ffffff;
+    --color-accent: #ff4081;
+  }
+  
+  .item-count {
+      display: flex;
+      align-items: center;
+  }
+  
+  .button {
+      all: unset;
+      width: 50px;
+      height: 25px;
+      background-color: var(--color-button-background);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin: 15px;
+      border-radius: 7px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button:hover {
+      background-color: var(--color-button-hover);
+      color: var(--color-text-secondary);
+  }
+  
+  .amount {
+      font-size: 20px;
+      width: 40px;
+      text-align: center;
+      margin: 15px;
+      color: var(--color-text-primary);
+      background-color: var(--color-accent);
+      border-radius: 7px;
+      padding: 2px 0;
+  }
+  
