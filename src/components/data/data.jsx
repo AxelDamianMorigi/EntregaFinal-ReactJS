@@ -1,10 +1,9 @@
-import React from "react";
+
 import imgs22 from "./imagenes/s22.jpg";
 import imgs23 from "./imagenes/s23.jpg";
 import imgiphone15 from "./imagenes/iphone15.jpg";
 import imgxiaomi from "./imagenes/xiaomi.jpg";
-import { useEffect } from "react";
-import { getFirestore, doc } from "firebase/firestore";
+
 
 export const data = [
   {

@@ -1,16 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./ItemListContainer.css";
 import { BiHappyBeaming } from "react-icons/bi";
-
 import { data } from "../data/data.jsx";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const ItemListContainer = (prop) => {
   const { id } = useParams();
-
   const [prod, setProd] = useState();
 
   const getBooks = () => {
@@ -22,15 +18,21 @@ const ItemListContainer = (prop) => {
   };
 
   useEffect(() => {
-    if (id) {
-      getBooks().then((response) => {
-        setProd(response.filter((productos) => productos.category == id));
-      });
-    } else if (prop == undefined) {
-    } else {
-      getBooks().then((response) => setProd(response));
-    }
-  }, [id]);
+    const fetchData = async () => {
+      if (id) {
+        const response = await getBooks();
+        setProd(response.filter((productos) => productos.category === id));
+      } else if (prop === undefined) {
+      
+      } else {
+        const response = await getBooks();
+        setProd(response);
+      }
+    };
+
+    fetchData();
+  }, [id, prop]);
+
   return (
     <>
       <div className="greeting">
@@ -45,11 +47,13 @@ const ItemListContainer = (prop) => {
           <div className="p_card">
             {prod.map((p) => (
               <li className="li_card" key={p.id}>
-                <img src={p.pictureUrl} />
+                <img src={p.pictureUrl} alt={p.title} />
 
                 <div className="b_card">
+                  <h3>{p.title}</h3>
+                  <p>{p.description}</p>
                   <Link to={`/item/${p.id}`} className="link">
-                    Más Información
+                    Ver Detalles
                   </Link>
                 </div>
               </li>

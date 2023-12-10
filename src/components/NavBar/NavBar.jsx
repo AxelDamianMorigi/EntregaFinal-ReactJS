@@ -3,8 +3,12 @@ import "./NavBar.css";
 import { BsBook } from "react-icons/bs";
 import { TbTriangleInverted } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { data } from "../data/data.jsx"; // Importa el archivo data.jsx
 
 const NavBar = ({ children }) => {
+  // Filtra las categorías únicas de tus productos
+  const categories = [...new Set(data.map((product) => product.category))];
+
   return (
     <div>
       <nav>
@@ -24,7 +28,7 @@ const NavBar = ({ children }) => {
                 name=""
                 id="search"
                 className="search__input"
-                placeholder="¿Que estás buscando?"
+                placeholder="¿Qué estás buscando?"
               />
             </div>
           </li>
@@ -33,27 +37,18 @@ const NavBar = ({ children }) => {
               <li className="buttons__news">Novedades</li>
               <li className="buttons__promotions">Promociones</li>
               <li className="buttons_categories">
-                Categorias
+                Categorías
                 <div className="buttons_categories-icon">
                   <TbTriangleInverted />
                 </div>
                 <ul className="items">
-                  <li>
-                    <Link to="/category/Samsung" className="lnk">
-                      Samsung{" "}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/category/Iphones" className="lnk">
-                      {" "}
-                      Iphones
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/category/Xiaomi" className="lnk">
-                      Xiaomi
-                    </Link>
-                  </li>
+                  {categories.map((category) => (
+                    <li key={category}>
+                      <Link to={`/category/${category}`} className="lnk">
+                        {category}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </li>
               <li className="buttons_contact">Contacto</li>
