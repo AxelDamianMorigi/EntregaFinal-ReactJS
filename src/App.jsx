@@ -1,4 +1,4 @@
-
+// src\App.jsx
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -9,6 +9,7 @@ import ItemDetailContainer from "./components/ItemDetailContainer/ItemDetailCont
 import Cart from "./components/Cart/Cart.jsx";
 import { CartContextProvider } from "./contexto/CartContext.jsx";
 import ItemList from "./components/ItemListContainer/ItemList/ItemList.jsx";
+
 
 
 function App() {

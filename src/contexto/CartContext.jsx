@@ -1,32 +1,27 @@
-// src/contexto/CartContext.jsx
-import React, { createContext, useContext, useState } from "react";
+// src/context/CartContext.jsx
+import React, { createContext, useContext, useState } from 'react';
 
-export const CartContext = createContext();
-
-export const useCartContext = () => {
-  const context = useContext(CartContext);
-  return context;
-};
+const CartContext = createContext();
 
 export const CartContextProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
 
-  const addNewProduct = (product) => {
-    const existingProduct = cart.find(item => item.id === product.id);
-    if (existingProduct) {
-      setCart(cart.map(item => item.id === product.id ? {...item, quantity: item.quantity + 1} : item));
-    } else {
-      setCart([...cart, {...product, quantity: 1}]);
-    }
+  const addToCart = (product) => {
+    setCart([...cart, product]);
   };
 
-  const deleteProduct = (productId) => {
-    setCart(cart.filter(item => item.id !== productId));
+  const addToWishlist = (product) => {
+    setWishlist([...wishlist, product]);
   };
 
   return (
-    <CartContext.Provider value={{ cart, addNewProduct, deleteProduct }}>
+    <CartContext.Provider value={{ cart, wishlist, addToCart, addToWishlist }}>
       {children}
     </CartContext.Provider>
   );
+};
+
+export const useCartContext = () => {
+  return useContext(CartContext);
 };
