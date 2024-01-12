@@ -1,15 +1,25 @@
 import React from "react";
-import "./CartWidget.css";
+import { Link } from "react-router-dom";
 import { MdShoppingCart } from "react-icons/md";
+import { useCartContext } from "../../contexto/CartContext";
+import "./CartWidget.css";
 
 const CartWidget = () => {
+  const { cart } = useCartContext();
+
+  // Calcula la cantidad total de productos en el carrito
+  const totalQuantity = cart.reduce((total, product) => total + product.quantity, 0);
+
   return (
-    <>
-      <div className="cart">
-        <div className="cart__quantity">1</div>
+    <div className="cart-widget">
+      <Link to="/cart" className="cart-link">
         <MdShoppingCart />
-      </div>
-    </>
+        {totalQuantity > 0 && (
+          <span className="cart-quantity">{totalQuantity}</span>
+        )}
+        {totalQuantity > 0 && <span className="cart-label">Carrito</span>}
+      </Link>
+    </div>
   );
 };
 

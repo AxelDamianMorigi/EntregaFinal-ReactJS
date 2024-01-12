@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./ItemDetail.css";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { collection, getDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const ItemDetail = () => {
   const { id } = useParams();
-  const [item, setItem] = useState(null);
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    const getItemData = async () => {
-      const db = getFirestore();
-      const docRef = doc(db, "items", id);
-      const snapshot = await getDoc(docRef);
-
-      if (snapshot.exists()) {
-        setItem({ id: snapshot.id, ...snapshot.data() });
-      } else {
-        console.log("No such document!");
+    const fetchProduct = async () => {
+      try {
+        const docRef = await getDoc(collection(db, 'items', id));
+        if (docRef.exists()) {
+          setProduct({ id: docRef.id, ...docRef.data() });
+        } else {
+          console.error('No se encontró el producto con ID:', id);
+        }
+      } catch (error) {
+        console.error('Error al obtener el producto:', error);
       }
     };
 
-    getItemData();
+    fetchProduct();
   }, [id]);
 
-  if (!item) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="div-card">
-      <ul className="li-card">
-        <li className="li_description">{item.description} </li>
-        <li className="li_title">{item.title} </li>
-        <img src={item.pictureUrl} alt={item.title} className="img_product" />
-        <div className="b-card">
-          <li className="li_price">{item.price}</li>
-        </div>
-      </ul>
+    <div>
+      {product ? (
+        <>
+          <h2>{product.title}</h2>
+          <p>{product.description}</p>
+          <img src={product.pictureUrl} alt={product.title} />
+          <p>Precio: ${product.price}</p>
+         
+        </>
+      ) : (
+        <p>Cargando...</p>
+      )}
     </div>
   );
 };

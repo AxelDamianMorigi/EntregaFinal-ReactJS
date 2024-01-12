@@ -1,48 +1,85 @@
-// src/components/ItemDetail.jsx
+// components/ItemListContainer/ItemListContainer.jsx
 import React, { useState, useEffect } from 'react';
+import '../ItemListContainer/ItemListContainer.css';
+import { BiHappyBeaming } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import { useCartContext } from '../../contexto/CartContext';
 
-const ItemDetail = () => {
+const ItemListContainer = () => {
   const { id } = useParams();
-  const [item, setItem] = useState(null);
+  const [prod, setProd] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { addToCart, isItemInCart, canAddToCart } = useCartContext();
+
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'productos'));
+      const response = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+      if (id) {
+        setProd(response.filter((producto) => producto.category === id));
+      } else {
+        setProd(response);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchItem = async () => {
-      try {
-        const itemDoc = await getDoc(doc(db, 'items', id));
-        if (itemDoc.exists()) {
-          // Si el documento existe, actualiza el estado con los datos del artículo
-          setItem({ id: itemDoc.id, ...itemDoc.data() });
-        } else {
-          console.error('El artículo no fue encontrado.');
-        }
-      } catch (error) {
-        console.error('Error al obtener los detalles del artículo:', error);
-      }
-    };
-
-    // Llamada a la función para obtener los detalles del artículo
-    fetchItem();
-  }, [id]); // Se ejecutará cada vez que cambie el ID en la ruta
+    fetchData();
+  }, [id]);
 
   return (
-    <div>
-      <h2>Detalles del Artículo</h2>
-      {item ? (
-        <div>
-          <h3>{item.title}</h3>
-          <p>{item.description}</p>
-          <p>Precio: {item.price}</p>
-          <p>Stock: {item.stock}</p>
-          {/* Otros detalles del artículo según tu modelo de datos */}
+    <>
+      <div className="greeting">
+        Gracias por visitarnos
+        <div className="greeting__icon">
+          <BiHappyBeaming />
         </div>
+      </div>
+
+      {loading ? (
+        <p>Cargando...</p>
       ) : (
-        <p>Cargando detalles del artículo...</p>
+        <div className="div_card">
+          <ul className="p_card">
+            {prod.map((p) => (
+              <li className="li_card" key={p.id}>
+                <img src={p.pictureUrl} alt={p.title} />
+
+                <div className="b_card">
+                  <h3>{p.title}</h3>
+                  <p>{p.description}</p>
+                  <p>Precio: ${p.price}</p>
+                  <p>Stock: {p.stock}</p>
+
+                  {canAddToCart(p.id, 1) ? (
+                    <button onClick={() => addToCart(p)}>Agregar al Carrito</button>
+                  ) : (
+                    <p>No hay suficiente stock para agregar al carrito</p>
+                  )}
+
+                  {isItemInCart(p.id) && (
+                    <p>Este producto está en tu carrito</p>
+                  )}
+
+                  <Link to={`/item/${p.id}`} className="link">
+                    Ver Detalles
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
-export default ItemDetail;
+export default ItemListContainer;

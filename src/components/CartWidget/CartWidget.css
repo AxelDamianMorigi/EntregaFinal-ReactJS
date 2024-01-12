@@ -1,0 +1,24 @@
+.cart-widget {
+    position: relative;
+  }
+  
+  .cart-link {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .cart-link:hover {
+    color: #28a745;
+  }
+  
+  .cart-quantity {
+    background-color: #28a745;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 12px;
+  }
+  

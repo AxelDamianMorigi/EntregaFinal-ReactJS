@@ -1,0 +1,29 @@
+/* src/components/ItemListContainer/ItemListContainer.css */
+
+.div_card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .p_card {
+    list-style: none;
+    display: flex;
+  }
+  
+  .li_card {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .b_card {
+    text-align: center;
+  }
+  
+  .link {
+    text-decoration: none;
+    color: #3498db;
+  }
+  
