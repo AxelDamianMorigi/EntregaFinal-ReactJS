@@ -81,7 +81,7 @@ const ItemListContainer = () => {
         </div>
       )}
 
-      {/* Mostrar información del carrito */}
+     
       <div>
         <h2>Tu Carrito</h2>
         {cart.length === 0 ? (

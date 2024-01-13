@@ -7,7 +7,7 @@ import "./CartWidget.css";
 const CartWidget = () => {
   const { cart } = useCartContext();
 
-  // Calcula la cantidad total de productos en el carrito
+
   const totalQuantity = cart.reduce((total, product) => total + product.quantity, 0);
 
   return (
